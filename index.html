@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca de Manuales</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 30px;
+      background-color: #f8fafc;
+      color: #334155;
+    }
+    .header {
+      background: linear-gradient(135deg, #0284c7, #0f172a);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border-left: 5px solid #0284c7;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📚 Centro de Documentación y Manuales</h1>
+    <p>Página con diseño 100% personalizado fuera de los límites de SharePoint.</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Manual de Fabric</h3>
+      <p>Instrucciones de pipelines y lakehouse.</p>
+    </div>
+    <div class="card">
+      <h3>Guía Power BI</h3>
+      <p>Estándares de modelado y diseño de reportes.</p>
+    </div>
+  </div>
+</body>
+</html>
