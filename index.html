@@ -49,5 +49,43 @@
       <p>Estándares de modelado y diseño de reportes.</p>
     </div>
   </div>
+
+  <!-- PANTALLA DE ACCESO VISUAL -->
+<div id="login-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.95);display:flex;align-items:center;justify-content:center;z-index:99999;font-family:sans-serif;">
+  <div style="background:#ffffff;padding:35px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.3);width:320px;text-align:center;">
+    <h2 style="margin-top:0;color:#0f172a;">🔒 Acceso Restringido</h2>
+    <p style="font-size:14px;color:#64748b;margin-bottom:20px;">Ingresa la contraseña para ver los manuales.</p>
+    
+    <input type="password" id="pass-input" placeholder="Contraseña del equipo" style="width:100%;padding:10px;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;margin-bottom:15px;outline:none;">
+    
+    <button onclick="verificar()" style="width:100%;padding:10px;background:#0284c7;color:white;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px;">Entrar</button>
+    <p id="error-msg" style="color:#ef4444;font-size:12px;display:none;margin-top:10px;">Contraseña incorrecta</p>
+  </div>
+</div>
+
+<script>
+  // 👉 Define aquí tu contraseña
+  const CLAVE_CORRECTA = "Repo2026*";
+
+  // Si ya ingresó la clave en esta sesión, no volver a pedirla
+  if (sessionStorage.getItem("acceso_manuales") === "ok") {
+    document.getElementById("login-overlay").style.display = "none";
+  }
+
+  function verificar() {
+    const input = document.getElementById("pass-input").value;
+    if (input === CLAVE_CORRECTA) {
+      sessionStorage.setItem("acceso_manuales", "ok");
+      document.getElementById("login-overlay").style.display = "none";
+    } else {
+      document.getElementById("error-msg").style.display = "block";
+    }
+  }
+
+  // Permitir presionar "Enter" para entrar
+  document.getElementById("pass-input").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") verificar();
+  });
+</script>
 </body>
 </html>
