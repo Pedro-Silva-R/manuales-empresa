@@ -1,5 +1,5 @@
 /**
- * Centro de Documentación — Sodexo
+ * Centro de Documentación · Analytics & BI
  * app.js · Lógica de autenticación y animaciones de UI
  */
 
