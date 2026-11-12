@@ -3,89 +3,323 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Biblioteca de Manuales</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      margin: 0;
-      padding: 30px;
-      background-color: #f8fafc;
-      color: #334155;
-    }
-    .header {
-      background: linear-gradient(135deg, #0284c7, #0f172a);
-      color: white;
-      padding: 30px;
-      border-radius: 12px;
-      margin-bottom: 25px;
-    }
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      border-left: 5px solid #0284c7;
-    }
-  </style>
+  <meta name="robots" content="noindex, nofollow">
+  <title>Centro de Documentación · Sodexo</title>
+
+  <!-- Open Sans — fuente oficial Sodexo para digital -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <div class="header">
-    <h1>📚 Centro de Documentación y Manuales</h1>
-    <p>Página con diseño 100% personalizado fuera de los límites de SharePoint.</p>
-  </div>
 
-  <div class="card-grid">
-    <div class="card">
-      <h3>Manual de Fabric</h3>
-      <p>Instrucciones de pipelines y lakehouse.</p>
+  <!-- ═══════════════════════════════════════════════
+       PANTALLA DE ACCESO — Sodexo Brand Card
+       ═══════════════════════════════════════════════ -->
+  <div
+    id="login-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="login-title"
+    aria-describedby="login-desc"
+  >
+    <div class="login-card">
+      <!-- Línea roja — firma visual de la Brand Card de Sodexo -->
+      <div class="login-card__accent" aria-hidden="true"></div>
+
+      <div class="login-card__body">
+        <div class="login-card__logo" aria-label="Sodexo">
+          <span class="login-card__logo-wordmark">Sodexo</span>
+          <span class="login-card__logo-domain">Documentación</span>
+        </div>
+
+        <h1 class="login-card__title" id="login-title">Acceso restringido</h1>
+        <p class="login-card__subtitle" id="login-desc">
+          Portal de documentación interna. Ingresa la contraseña del equipo para continuar.
+        </p>
+
+        <form class="login-form" onsubmit="return false;" novalidate>
+          <label class="login-form__label" for="pass-input">Contraseña</label>
+
+          <input
+            type="password"
+            id="pass-input"
+            class="login-form__input"
+            placeholder="••••••••••"
+            autocomplete="current-password"
+            aria-describedby="error-msg"
+            aria-invalid="false"
+          >
+
+          <p
+            id="error-msg"
+            class="login-form__error"
+            role="alert"
+            aria-live="polite"
+            hidden
+          >
+            <!-- Icono SVG accesible -->
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="6.5" stroke="#EE0000"/>
+              <path d="M7 4v3.5M7 9.5v.5" stroke="#EE0000" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            Contraseña incorrecta. Vuelve a intentarlo.
+          </p>
+
+          <button type="submit" class="login-form__btn" id="login-btn">
+            Entrar
+          </button>
+        </form>
+      </div>
     </div>
-    <div class="card">
-      <h3>Guía Power BI</h3>
-      <p>Estándares de modelado y diseño de reportes.</p>
-    </div>
   </div>
 
-  <!-- PANTALLA DE ACCESO VISUAL -->
-<div id="login-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.95);display:flex;align-items:center;justify-content:center;z-index:99999;font-family:sans-serif;">
-  <div style="background:#ffffff;padding:35px;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.3);width:320px;text-align:center;">
-    <h2 style="margin-top:0;color:#0f172a;">🔒 Acceso Restringido</h2>
-    <p style="font-size:14px;color:#64748b;margin-bottom:20px;">Ingresa la contraseña para ver los manuales.</p>
-    
-    <input type="password" id="pass-input" placeholder="Contraseña del equipo" style="width:100%;padding:10px;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;margin-bottom:15px;outline:none;">
-    
-    <button onclick="verificar()" style="width:100%;padding:10px;background:#0284c7;color:white;border:none;border-radius:6px;font-weight:bold;cursor:pointer;font-size:14px;">Entrar</button>
-    <p id="error-msg" style="color:#ef4444;font-size:12px;display:none;margin-top:10px;">Contraseña incorrecta</p>
-  </div>
-</div>
 
-<script>
-  // 👉 Define aquí tu contraseña
-  const CLAVE_CORRECTA = "Repo2026*";
+  <!-- ═══════════════════════════════════════════════
+       CONTENIDO PRINCIPAL
+       ═══════════════════════════════════════════════ -->
+  <div class="page-wrapper" id="page-content" hidden>
 
-  // Si ya ingresó la clave en esta sesión, no volver a pedirla
-  if (sessionStorage.getItem("acceso_manuales") === "ok") {
-    document.getElementById("login-overlay").style.display = "none";
-  }
+    <!-- ── HEADER ───────────────────────────────── -->
+    <header class="site-header" role="banner">
+      <div class="site-header__inner">
 
-  function verificar() {
-    const input = document.getElementById("pass-input").value;
-    if (input === CLAVE_CORRECTA) {
-      sessionStorage.setItem("acceso_manuales", "ok");
-      document.getElementById("login-overlay").style.display = "none";
-    } else {
-      document.getElementById("error-msg").style.display = "block";
-    }
-  }
+        <a href="#manuales" class="brand-logo" aria-label="Sodexo · Centro de Documentación">
+          <span class="brand-logo__name">Sodexo</span>
+          <span class="brand-logo__separator" aria-hidden="true"></span>
+          <span class="brand-logo__unit">Documentación</span>
+        </a>
 
-  // Permitir presionar "Enter" para entrar
-  document.getElementById("pass-input").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") verificar();
-  });
-</script>
+        <nav class="site-nav" aria-label="Navegación principal">
+          <ul class="site-nav__list" role="list">
+            <li>
+              <a href="#manuales" class="site-nav__link">Manuales</a>
+            </li>
+            <li>
+              <a href="#recursos" class="site-nav__link">Recursos</a>
+            </li>
+          </ul>
+        </nav>
+
+      </div>
+    </header>
+
+
+    <main>
+
+      <!-- ── HERO ─────────────────────────────────── -->
+      <section
+        class="hero"
+        aria-labelledby="hero-title"
+        data-count="04"
+      >
+        <div class="hero__inner">
+
+          <div class="hero__content">
+            <p class="hero__eyebrow">Portal interno · Sodexo Chile</p>
+
+            <h1 class="hero__title" id="hero-title">
+              Centro de<br>
+              <em>Documentación</em>
+            </h1>
+
+            <p class="hero__description">
+              Guías técnicas, manuales operativos y estándares de
+              Power BI y Microsoft Fabric — centralizados, siempre actualizados.
+            </p>
+          </div>
+
+          <!-- Brand Card con contador -->
+          <div
+            class="hero__stat-card"
+            aria-label="Manuales disponibles"
+            role="status"
+          >
+            <div class="hero__stat-card-accent" aria-hidden="true"></div>
+            <div class="hero__stat-card-body">
+              <span
+                class="hero__stat-number"
+                id="stat-number"
+                data-target="4"
+                aria-label="4 manuales disponibles"
+              >04</span>
+              <span class="hero__stat-label" aria-hidden="true">
+                manuales<br>disponibles
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ── CATÁLOGO DE MANUALES ──────────────────── -->
+      <section
+        class="catalog"
+        id="manuales"
+        aria-labelledby="catalog-title"
+      >
+        <div class="catalog__inner">
+
+          <header class="catalog__header">
+            <h2 class="catalog__title" id="catalog-title">Biblioteca de manuales</h2>
+            <p class="catalog__subtitle">
+              Documentación técnica y procedimientos actualizados del equipo de Analytics.
+            </p>
+          </header>
+
+          <div class="card-grid" role="list">
+
+            <!-- Card 1 · Microsoft Fabric -->
+            <article class="manual-card" role="listitem">
+              <div class="manual-card__accent" aria-hidden="true"></div>
+              <div class="manual-card__inner">
+
+                <div class="manual-card__icon" aria-hidden="true">
+                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="44" height="44" rx="10" fill="#EBF0F9"/>
+                    <rect x="12" y="22" width="6" height="10" rx="2" fill="#283897"/>
+                    <rect x="20" y="17" width="6" height="15" rx="2" fill="#283897" opacity="0.65"/>
+                    <rect x="28" y="12" width="6" height="20" rx="2" fill="#283897" opacity="0.35"/>
+                    <path d="M12 20h22" stroke="#EE0000" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3"/>
+                  </svg>
+                </div>
+
+                <div class="manual-card__meta">
+                  <span class="manual-card__tag">Microsoft Fabric</span>
+                </div>
+
+                <h3 class="manual-card__title">Manual de Fabric</h3>
+                <p class="manual-card__desc">
+                  Instrucciones de pipelines, lakehouse, flujos de datos y gobernanza en Microsoft Fabric.
+                </p>
+
+                <a href="#" class="manual-card__link" aria-label="Ver Manual de Microsoft Fabric">
+                  Ver manual
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+
+              </div>
+            </article>
+
+            <!-- Card 2 · Power BI -->
+            <article class="manual-card" role="listitem">
+              <div class="manual-card__accent" aria-hidden="true"></div>
+              <div class="manual-card__inner">
+
+                <div class="manual-card__icon" aria-hidden="true">
+                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="44" height="44" rx="10" fill="#EBF0F9"/>
+                    <circle cx="22" cy="22" r="10" stroke="#283897" stroke-width="2"/>
+                    <path d="M22 12v10l7 4" stroke="#283897" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="22" cy="22" r="2.5" fill="#EE0000"/>
+                  </svg>
+                </div>
+
+                <div class="manual-card__meta">
+                  <span class="manual-card__tag">Power BI</span>
+                </div>
+
+                <h3 class="manual-card__title">Estándares Power BI</h3>
+                <p class="manual-card__desc">
+                  Estándares de modelado de datos, diseño de reportes y mejores prácticas en DAX.
+                </p>
+
+                <a href="#" class="manual-card__link" aria-label="Ver Estándares de Power BI">
+                  Ver manual
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+
+              </div>
+            </article>
+
+            <!-- Card 3 · Power Query — Próximamente -->
+            <article class="manual-card manual-card--coming" role="listitem" aria-label="Power Query — próximamente disponible">
+              <div class="manual-card__accent" aria-hidden="true"></div>
+              <div class="manual-card__inner">
+
+                <div class="manual-card__icon" aria-hidden="true">
+                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="44" height="44" rx="10" fill="#EBF0F9"/>
+                    <path d="M14 22h16M14 17h10M14 27h8" stroke="#283897" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+                    <path d="M28 20l4 2-4 2" stroke="#283897" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+                  </svg>
+                </div>
+
+                <div class="manual-card__meta">
+                  <span class="manual-card__tag manual-card__tag--soon">Próximamente</span>
+                </div>
+
+                <h3 class="manual-card__title">Guía Power Query</h3>
+                <p class="manual-card__desc">
+                  Transformaciones en M, mejores prácticas y patrones reutilizables para ETL.
+                </p>
+
+              </div>
+            </article>
+
+            <!-- Card 4 · Procesos Operativos — Próximamente -->
+            <article class="manual-card manual-card--coming" role="listitem" aria-label="Procesos Operativos — próximamente disponible">
+              <div class="manual-card__accent" aria-hidden="true"></div>
+              <div class="manual-card__inner">
+
+                <div class="manual-card__icon" aria-hidden="true">
+                  <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="44" height="44" rx="10" fill="#EBF0F9"/>
+                    <rect x="14" y="14" width="16" height="16" rx="3" stroke="#283897" stroke-width="2" opacity="0.4"/>
+                    <path d="M18 22l3 3 5-5" stroke="#283897" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+                  </svg>
+                </div>
+
+                <div class="manual-card__meta">
+                  <span class="manual-card__tag manual-card__tag--soon">Próximamente</span>
+                </div>
+
+                <h3 class="manual-card__title">Procesos operativos</h3>
+                <p class="manual-card__desc">
+                  Guías de procedimientos internos y flujos de trabajo estándar del equipo.
+                </p>
+
+              </div>
+            </article>
+
+          </div><!-- /.card-grid -->
+
+        </div><!-- /.catalog__inner -->
+      </section>
+
+    </main>
+
+
+    <!-- ── FOOTER ────────────────────────────────── -->
+    <footer class="site-footer" role="contentinfo" id="recursos">
+      <div class="site-footer__inner">
+
+        <div>
+          <p class="site-footer__copy">
+            <span class="site-footer__brand">Sodexo</span>
+            &nbsp;·&nbsp; Centro de documentación interna
+          </p>
+          <p class="site-footer__sub">Uso exclusivo del equipo. No distribuir externamente.</p>
+        </div>
+
+        <p class="site-footer__sub">
+          Analytics &amp; BI · Chile
+        </p>
+
+      </div>
+      <div class="site-footer__red-line" aria-hidden="true"></div>
+    </footer>
+
+  </div><!-- /.page-wrapper -->
+
+
+  <script src="assets/js/app.js"></script>
 </body>
 </html>

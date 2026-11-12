@@ -1,0 +1,14 @@
+# Archivos de respaldo y temporales locales
+index.backup.html
+*.backup.*
+*.bak
+
+# Documentos confidenciales / Guías internas pesadas
+*.pdf
+
+# Archivos del sistema y del editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
